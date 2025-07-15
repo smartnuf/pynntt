@@ -1,2 +1,4 @@
 /src/.venv
 /0001-initial-structure.txt
+/src/pynntt/__pycache__/*.pyc
+*.pyc
