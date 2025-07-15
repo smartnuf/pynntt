@@ -6,11 +6,13 @@ This grammar describes how two-terminal (1-port) passive RLC networks are encode
 - `R`, `L`, `C` represent resistors, inductors, capacitors.
 
 ## Compositional Operators
-- Series: `+`
-- Parallel: `|`
+- Series: `a+b`
+  Represents a series composition of expressions `a` and `b`.
+- Parallel: `a|b`
+  Represents a parallel composition of expressions `a` and `b`.
 - Bridge: `<(a&b)@(c&d)/e>`  
   Represents a bridge where:
-  - one path from terminal to terminal is a-b
+  - one path from terminal to terminal is a-b, with midpoint '&' between SP expressions
   - another path is c-d
   - e bridges between the midpoints
 
