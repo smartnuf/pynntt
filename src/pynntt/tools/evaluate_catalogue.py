@@ -8,7 +8,7 @@ from pynntt.networks import parse_descriptor, eval_impedance, canonical_form
 def load_catalogue(path):
     """Read a CSV catalogue of networks. Assumes 'ID' and 'Desc' columns."""
     rows = []
-    with open(path, newline='') as f:
+    with open(path, encoding='utf-8-sig', newline='') as f:
         reader = csv.DictReader(f)
         for row in reader:
             if 'ID' not in row or 'Desc' not in row:
