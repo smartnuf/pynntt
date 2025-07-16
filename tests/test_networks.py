@@ -1,6 +1,7 @@
 import pytest
 from sympy import simplify
-from pynntt.networks import parse_descriptor, eval_impedance, canonical_form
+import sympy as sp
+from pynntt.networks import parse_descriptor, eval_impedance, canonical_form, s
 
 def test_parse_simple_series():
     desc = "(R+L)"
@@ -29,5 +30,13 @@ def test_bridge_impedance_canonical():
     ast = parse_descriptor(desc)
     Z = eval_impedance(ast)
     cf = canonical_form(Z)
-    assert isinstance(cf, str)
-    assert "/" in cf and "*" in cf
+    # The canonical_form now returns a SymPy expression, not a string.
+    # We can check its type and then its symbolic equivalence.
+    assert isinstance(cf, sp.Expr)
+    # For a bridge, the exact form can be complex, so we check for symbolic equivalence
+    # to a known correct form or properties of the expression.
+    # Here, we'll check if it's a rational function of 's' and contains expected symbols.
+    # A more rigorous test would involve comparing to a pre-calculated correct SymPy expression.
+    assert cf.is_rational_function(s)
+    assert any(sym.name.startswith('R') for sym in cf.free_symbols)
+    assert any(sym.name.startswith('C') for sym in cf.free_symbols)

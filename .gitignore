@@ -2,3 +2,4 @@
 /0001-initial-structure.txt
 /src/pynntt/__pycache__/*.pyc
 *.pyc
+/commit-log.txt
