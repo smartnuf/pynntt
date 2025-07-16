@@ -1,17 +1,17 @@
-id,desc,Zcanon,error
-js1a,(R+L+(R|C))|(R+C),(C1*C2*L1*R2*R3*s**3 + C1*C2*R1*R2*R3 + C1*L1*R2 + C2*L1*R3*s**2 + C1*R1*R2 + C2*R1*R3 + C2*R2*R3 + L1*s + R1 + R2) / (C1*C2*L1*R2*s**3 + C2*(C1*R1*R2 + C1*R2*R3 + L1)*s**2 + C1*R2 + C2*R1 + C2*R2 + C2*R3*s + 1),
-js1b,((C+R)|R|L)+(C|R),(C1*C2*L1*R1*R2*R3*s**3 + L1*(C1*R1*R2 + C1*R1*R3 + C1*R2*R3 + C2*R2*R3)*s**2 + C1*R1*R2*R3 + L1*R2 + L1*R3*s + R2*R3) / (C1*C2*L1*R3*(R1 + R2)*s**3 + C1*C2*R1*R2*R3 + C1*L1*R1 + C1*L1*R2 + C2*L1*R3*s**2 + C1*R1*R2 + C2*R2*R3 + L1*s + R2),
-js1c,(R+C+(R|L))|(R+L),(C1*L1*L2*(R1 + R2)*s**3 + C1*L1*R1*R3 + C1*L1*R2*R3 + C1*L2*R1*R2 + L1*L2*s**2 + C1*R1*R2*R3 + L1*R3 + L2*R2*s + R2*R3) / (C1*L1*L2*s**3 + C1*(L1*R1 + L1*R2 + L1*R3 + L2*R2)*s**2 + C1*R1*R2 + C1*R2*R3 + L1*s + R2),
-js1d,((L+R)|R|C)+(L|R),(C1*L1*L2*R2*R3*s**3 + L2*(C1*R1*R2*R3 + L1*R2 + L1*R3)*s**2 + L1*R2*R3 + L2*R1*R2 + L2*R1*R3 + L2*R2*R3*s + R1*R2*R3) / (C1*L1*L2*R2*s**3 + C1*L1*R2*R3 + C1*L2*R1*R2 + L1*L2*s**2 + C1*R1*R2*R3 + L1*R3 + L2*R1 + L2*R2*s + R3*(R1 + R2)),
-js2a,((R|L)+(R|C))|(R+C),(C1*C2*L1*R1*R2*R3*s**3 + L1*(C1*R1*R2 + C2*R1*R3 + C2*R2*R3)*s**2 + C2*R1*R2*R3 + L1*R1 + L1*R2*s + R1*R2) / (C1*C2*L1*R2*(R1 + R3)*s**3 + C1*C2*R1*R2*R3 + C1*L1*R2 + C2*L1*R1 + C2*L1*R2 + C2*L1*R3*s**2 + C1*R1*R2 + C2*R1*R2 + C2*R1*R3 + L1*s + R1),
-js2b,((C+R)|(R+L))+(C|R),(C1*C2*L1*R1*R3*s**3 + C1*C2*R1*R2*R3 + C1*L1*R1 + C1*L1*R3 + C2*L1*R3*s**2 + C1*R1*R2 + C1*R1*R3 + C1*R2*R3 + C2*R2*R3 + L1*s + R2 + R3) / (C1*C2*L1*R3*s**3 + C1*(C2*R1*R3 + C2*R2*R3 + L1)*s**2 + C1*R1 + C1*R2 + C2*R3*s + 1),
-js2c,((R|C)+(R|L))|(R+L),(C1*L1*L2*R1*R2*s**3 + L1*(C1*R1*R2*R3 + L2*R1 + L2*R2)*s**2 + L1*R1*R3 + L1*R2*R3 + L2*R1*R2*s + R1*R2*R3) / (C1*L1*L2*R1*s**3 + C1*L1*R1*R2 + C1*L1*R1*R3 + C1*L2*R1*R2 + L1*L2*s**2 + C1*R1*R2*R3 + L1*R1 + L1*R2 + L1*R3 + L2*R2*s + R2*(R1 + R3)),
-js2d,((L+R)|(R+C))+(L|R),(C1*L1*L2*(R2 + R3)*s**3 + C1*L1*R2*R3 + C1*L2*R1*R2 + C1*L2*R1*R3 + C1*L2*R2*R3 + L1*L2*s**2 + C1*R1*R2*R3 + L1*R3 + L2*R1 + L2*R3*s + R1*R3) / (C1*L1*L2*s**3 + C1*(L1*R3 + L2*R1 + L2*R2)*s**2 + C1*R1*R3 + C1*R2*R3 + L2*s + R3),
-js3a,(L+(R|C))|R|(R+C),(C1*C2*L1*R1*R2*R3*s**3 + L1*R2*(C1*R1 + C2*R3)*s**2 + R2*(C2*R1*R3 + L1)*s + R1*R2) / (C1*C2*L1*R1*(R2 + R3)*s**3 + C1*C2*R1*R2*R3 + C1*L1*R1 + C2*L1*R2 + C2*L1*R3*s**2 + C1*R1*R2 + C2*R1*R2 + C2*R1*R3 + C2*R2*R3 + L1*s + R1 + R2),
-js3b,R+((C+R)|L)+(C|R),(C1*C2*L1*R3*(R1 + R2)*s**3 + C1*C2*R1*R2*R3 + C1*L1*R1 + C1*L1*R2 + C1*L1*R3 + C2*L1*R3*s**2 + C1*R1*R2 + C1*R2*R3 + C2*R1*R3 + L1*s + R1 + R3) / (C1*C2*L1*R3*s**3 + C1*(C2*R2*R3 + L1)*s**2 + C1*R2 + C2*R3*s + 1),
-js3c,(C+(R|L))|R|(R+L),(C1*L1*L2*R1*R2*s**3 + L1*R2*(C1*R1*R3 + L2)*s**2 + R2*(L1*R3 + L2*R1)*s + R1*R2*R3) / (C1*L1*L2*(R1 + R2)*s**3 + C1*L1*R1*R2 + C1*L1*R1*R3 + C1*L1*R2*R3 + C1*L2*R1*R2 + L1*L2*s**2 + C1*R1*R2*R3 + L1*R2 + L1*R3 + L2*R1*s + R1*(R2 + R3)),
-js3d,R+((L+R)|C)+(L|R),(C1*L1*L2*(R1 + R3)*s**3 + C1*L1*R1*R3 + C1*L2*R1*R2 + C1*L2*R2*R3 + L1*L2*s**2 + C1*R1*R2*R3 + L1*R3 + L2*R1 + L2*R2 + L2*R3*s + R3*(R1 + R2)) / (C1*L1*L2*s**3 + C1*(L1*R3 + L2*R2)*s**2 + C1*R2*R3 + L2*s + R3),
-js4a,R+(((L+(R|C))|(R+C))),(C1*C2*L1*R2*(R1 + R3)*s**3 + C1*C2*R1*R2*R3 + C1*L1*R2 + C2*L1*R1 + C2*L1*R3*s**2 + C1*R1*R2 + C2*R1*R2 + C2*R1*R3 + C2*R2*R3 + L1*s + R1 + R2) / (C1*C2*L1*R2*s**3 + C2*(C1*R2*R3 + L1)*s**2 + C1*R2 + C2*R2 + C2*R3*s + 1),
-js4b,R|(((L+R)|C)+(L|R)),(C1*L1*L2*R1*R3*s**3 + L2*R1*(C1*R2*R3 + L1)*s**2 + R1*(L1*R3 + L2*R2 + L2*R3)*s + R1*R2*R3) / (C1*L1*L2*(R1 + R3)*s**3 + C1*L1*R1*R3 + C1*L2*R1*R2 + C1*L2*R2*R3 + L1*L2*s**2 + C1*R1*R2*R3 + L1*R3 + L2*R1 + L2*R2 + L2*R3*s + R3*(R1 + R2)),
-js4c,R+(((C+(R|L))|(R+C))),(C1*C2*L1*(R1*R2 + R1*R3 + R2*R3)*s**3 + C1*C2*R1*R2*R3 + C1*L1*R1 + C1*L1*R2 + C2*L1*R1 + C2*L1*R3*s**2 + C1*R1*R2 + C2*R1*R2 + C2*R2*R3 + L1*s + R2) / (C1*C2*L1*(R2 + R3)*s**3 + C1*C2*R2*R3 + C1*L1 + C2*L1*s**2 + R2*(C1 + C2)*s),
-js4d,R|(((C+R)|L)+(C|R)),(C1*C2*L1*R1*R2*R3*s**3 + L1*R1*(C1*R2 + C1*R3 + C2*R3)*s**2 + R1*(C1*R2*R3 + L1)*s + R1*R3) / (C1*C2*L1*R3*(R1 + R2)*s**3 + C1*C2*R1*R2*R3 + C1*L1*R1 + C1*L1*R2 + C1*L1*R3 + C2*L1*R3*s**2 + C1*R1*R2 + C1*R2*R3 + C2*R1*R3 + L1*s + R1 + R3),
+id,desc,Zcanon,ast,regular,error
+js1a,(R+L+(R|C))|(R+C),,,,"not enough values to unpack (expected 3, got 1)"
+js1b,((C+R)|R|L)+(C|R),,,,"not enough values to unpack (expected 3, got 1)"
+js1c,(R+C+(R|L))|(R+L),,,,"not enough values to unpack (expected 3, got 1)"
+js1d,((L+R)|R|C)+(L|R),,,,"not enough values to unpack (expected 3, got 1)"
+js2a,((R|L)+(R|C))|(R+C),,,,"not enough values to unpack (expected 3, got 1)"
+js2b,((C+R)|(R+L))+(C|R),,,,"not enough values to unpack (expected 3, got 1)"
+js2c,((R|C)+(R|L))|(R+L),,,,"not enough values to unpack (expected 3, got 1)"
+js2d,((L+R)|(R+C))+(L|R),,,,"not enough values to unpack (expected 3, got 1)"
+js3a,(L+(R|C))|R|(R+C),,,,"not enough values to unpack (expected 3, got 1)"
+js3b,R+((C+R)|L)+(C|R),,,,"not enough values to unpack (expected 3, got 1)"
+js3c,(C+(R|L))|R|(R+L),,,,"not enough values to unpack (expected 3, got 1)"
+js3d,R+((L+R)|C)+(L|R),,,,"not enough values to unpack (expected 3, got 1)"
+js4a,R+(((L+(R|C))|(R+C))),,,,"not enough values to unpack (expected 3, got 1)"
+js4b,R|(((L+R)|C)+(L|R)),,,,"not enough values to unpack (expected 3, got 1)"
+js4c,R+(((C+(R|L))|(R+C))),,,,"not enough values to unpack (expected 3, got 1)"
+js4d,R|(((C+R)|L)+(C|R)),,,,"not enough values to unpack (expected 3, got 1)"

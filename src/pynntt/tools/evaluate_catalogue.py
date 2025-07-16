@@ -2,7 +2,7 @@ import csv
 import sympy as sp
 from pathlib import Path
 import argparse
-from pynntt.networks import parse_descriptor, eval_impedance, canonical_form
+from pynntt.networks import parse_descriptor, eval_impedance, canonical_form, is_necessarily_regular
 
 
 def load_catalogue(path):
@@ -17,7 +17,7 @@ def load_catalogue(path):
     return rows
 
 
-def evaluate_catalogue(rows):
+def evaluate_catalogue(rows, include_ast=False, include_regular=False):
     """Evaluate each network's impedance and return enriched rows."""
     enriched = []
     for row in rows:
@@ -25,15 +25,26 @@ def evaluate_catalogue(rows):
             ast = parse_descriptor(row['desc'])
             Z = eval_impedance(ast)
             Zcanon = canonical_form(Z)
-            enriched.append({**row, 'ast': ast, 'Z': Z, 'Zcanon': Zcanon})
+            result = {**row, 'Zcanon': Zcanon}
+            if include_ast:
+                result['ast'] = str(ast)
+            if include_regular:
+                result['regular'] = is_necessarily_regular(Z)
+            enriched.append(result)
         except Exception as e:
             enriched.append({**row, 'error': str(e)})
     return enriched
 
 
-def save_results_csv(rows, path):
+def save_results_csv(rows, path, include_ast=False, include_regular=False):
     """Save canonical Z(s) results to a CSV."""
-    keys = ['id', 'desc', 'Zcanon', 'error']
+    keys = ['id', 'desc', 'Zcanon']
+    if include_ast:
+        keys.append('ast')
+    if include_regular:
+        keys.append('regular')
+    keys.append('error')
+
     with open(path, 'w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=keys)
         writer.writeheader()
@@ -46,6 +57,8 @@ def main():
     parser = argparse.ArgumentParser(description="Evaluate network impedances from a descriptor CSV.")
     parser.add_argument("input_csv", type=str, help="Path to input CSV with 'ID' and 'Desc' columns")
     parser.add_argument("output_csv", type=str, help="Path to write output CSV with results")
+    parser.add_argument("--include-ast", action="store_true", help="Include AST in output CSV")
+    parser.add_argument("--include-regular", action="store_true", help="Include regularity test result in output CSV")
     args = parser.parse_args()
 
     input_file = Path(args.input_csv)
@@ -53,8 +66,8 @@ def main():
     output_file.parent.mkdir(parents=True, exist_ok=True)
 
     catalogue = load_catalogue(input_file)
-    results = evaluate_catalogue(catalogue)
-    save_results_csv(results, output_file)
+    results = evaluate_catalogue(catalogue, include_ast=args.include_ast, include_regular=args.include_regular)
+    save_results_csv(results, output_file, include_ast=args.include_ast, include_regular=args.include_regular)
     print(f"Processed {len(results)} entries to {output_file}")
 
 

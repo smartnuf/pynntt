@@ -4,6 +4,7 @@ networks.py — Core logic for parsing, AST evaluation, impedance computation, a
 
 import sympy as sp
 import re
+from pynntt.regularity import is_necessarily_regular
 
 ELEMENTS = ['R', 'L', 'C']
 s = sp.Symbol('s')
