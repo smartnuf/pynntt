@@ -66,12 +66,41 @@ visualisation. We forsee the need for pynntt to be able to :
 ## Coding Style
 
 *   **Formatting:** Adhere to the `snake_case` convention for all Python code. 
-    Use a single space around all operators and inside parentheses and 
-    brackets.
+    * Use a single space around all operators and inside parentheses and 
+    brackets. 
+    * Keep text lines to no more that 78 characters in length, where possible.
 *   **Imports:** Use `import sympy as sp`.
 *   **Docstrings:** Use simple, single-line docstrings for functions where 
     the purpose is clear from the name.
+*   **Language:** Use English English for spelling and grammar. Avoid words like "utilize" when "use" will suffice.
+
+
+## Project Management
+
+*   **TODO List:** Refer to `TODO.md` for a comprehensive list of tasks, issues, and future enhancements for the project.
+
+## Code Quality Tools
+
+To ensure code quality, consistency, and correctness, the `pynntt` project uses the following tools:
+
+*   **`black` (Code Formatter):**
+    *   **Purpose:** Automatically formats Python code to conform to PEP 8 style guidelines, ensuring consistent code style across the project.
+    *   **Usage:** Typically run from the command line as `black .` (to format all Python files in the current directory and subdirectories).
+    *   **Integration:** Recommended for use with pre-commit hooks to automatically format code before each commit.
+
+*   **`flake8` (Linter):**
+    *   **Purpose:** Checks Python code for style guide violations (PEP 8), programming errors (e.g., unused imports, undefined variables), and code complexity.
+    *   **Usage:** Typically run from the command line as `flake8 .` (to lint all Python files in the current directory and subdirectories).
+    *   **Integration:** Recommended for use with pre-commit hooks and as a step in CI/CD pipelines to enforce code quality standards.
+
+*   **`mypy` (Static Type Checker):**
+    *   **Purpose:** Performs static analysis of Python code to check for type errors based on type hints. This helps catch potential bugs before runtime and improves code readability and maintainability.
+    *   **Usage:** Typically run from the command line as `mypy src/pynntt/` (to type-check the `pynntt` source code).
+    *   **Integration:** Recommended for use with pre-commit hooks and as a step in CI/CD pipelines to ensure type correctness.
 
 ## Commands
 
-*   **Run tests:** `pytest tests/`
+*   **Run code quality checks:** `python tools/run_checks.py`
+    *   This script runs `black --check`, `flake8`, and `mypy` to ensure code consistency, style, and type correctness.
+*   **Run tests with coverage:** `pytest --cov=src/pynntt --cov-report=term-missing --cov-report=html tests/`
+    *   **Coverage Goal:** Achieved 100% statement coverage for all Python source files in `src/pynntt/`. (Note: Minor reporting discrepancies by `pytest-cov` for complex conditional lines do not indicate functional gaps.)

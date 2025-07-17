@@ -40,3 +40,53 @@ def test_bridge_impedance_canonical():
     assert cf.is_rational_function(s)
     assert any(sym.name.startswith('R') for sym in cf.free_symbols)
     assert any(sym.name.startswith('C') for sym in cf.free_symbols)
+
+# New test cases for parse_descriptor error handling
+def test_parse_descriptor_mismatched_parentheses():
+    with pytest.raises(ValueError, match=r"Mismatched parentheses in descriptor"):
+        parse_descriptor("(R+L")
+
+def test_parse_descriptor_bridge_missing_ampersand_1():
+    with pytest.raises(ValueError, match=r"Expected '&' after first element in bridge"):
+        parse_descriptor("<(R)@(R&R)/C>")
+
+def test_parse_descriptor_bridge_missing_second_element_and_ampersand():
+    with pytest.raises(ValueError, match=r"Expected '&' after first element in bridge"):
+        parse_descriptor("<(R")
+
+def test_parse_descriptor_bridge_missing_closing_paren_1():
+    with pytest.raises(ValueError, match=r"Expected '\)' after second element in bridge"):
+        parse_descriptor("<(R&R@(R&R)/C>")
+
+def test_parse_descriptor_bridge_missing_at():
+    with pytest.raises(ValueError, match=r"Expected '@' after bridge arm 1"):
+        parse_descriptor("<(R&R)(R&R)/C>")
+
+def test_parse_descriptor_bridge_missing_opening_paren_2():
+    with pytest.raises(ValueError, match=r"Expected '\(' after '@'"):
+        parse_descriptor("<(R&R)@R&R)/C>")
+
+def test_parse_descriptor_bridge_missing_ampersand_2():
+    with pytest.raises(ValueError, match=r"Expected '&' after third element in bridge"):
+        parse_descriptor("<(R&R)@(R R)/C>")
+
+def test_parse_descriptor_bridge_missing_closing_paren_2():
+    with pytest.raises(ValueError, match=r"Expected '\)' after fourth element in bridge"):
+        parse_descriptor("<(R&R)@(R&R/C>")
+
+def test_parse_descriptor_bridge_missing_slash():
+    with pytest.raises(ValueError, match=r"Expected '/' after bridge arm 2"):
+        parse_descriptor("<(R&R)@(R&R)C>")
+
+def test_parse_descriptor_bridge_missing_greater_than():
+    with pytest.raises(ValueError, match=r"Expected '>' after bridge expression"):
+        parse_descriptor("<(R&R)@(R&R)/C")
+
+def test_parse_descriptor_unexpected_token():
+    with pytest.raises(ValueError, match=r"Unexpected token: \)"):
+        parse_descriptor("(R+X)")
+
+# New test case for eval_impedance error handling
+def test_eval_impedance_unrecognized_structure():
+    with pytest.raises(ValueError, match=r"Unrecognized structure: \('X', 'Y'\)"):
+        eval_impedance(('X', 'Y'))

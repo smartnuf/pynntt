@@ -6,9 +6,29 @@ s = sp.Symbol("s", positive=True, real=True)
 def is_necessarily_regular(Z_expr: sp.Expr) -> bool:
     """
     Determines if a given impedance expression is necessarily regular.
-    Currently, this defers to the biquadratic regularity test.
     """
-    return is_necessarily_regular_biquadratic(Z_expr)
+    # First, try the biquadratic test if applicable
+    try:
+        num, den = sp.fraction(Z_expr)
+        num = sp.expand(num)
+        den = sp.expand(den)
+
+        # Check if numerator and denominator are polynomials in s
+        if num.is_polynomial(s) and den.is_polynomial(s):
+            ndeg = sp.degree(num, s)
+            ddeg = sp.degree(den, s)
+            if max(ndeg, ddeg) <= 2:
+                return is_necessarily_regular_biquadratic(Z_expr)
+            else:
+                return is_necessarily_regular_by_definition_optimised(Z_expr)
+        else:
+            return is_necessarily_regular_by_definition_optimised(Z_expr)
+
+    except Exception: # Catch errors if Z_expr is not a valid polynomial for degree check
+        return is_necessarily_regular_by_definition_optimised(Z_expr)
+
+    # Fallback to definition-based test for non-biquadratic or complex cases
+    return is_necessarily_regular_by_definition_optimised(Z_expr)
 
 def is_necessarily_regular_biquadratic(Z_expr: sp.Expr) -> bool:
     """
@@ -55,8 +75,8 @@ def is_necessarily_regular_biquadratic(Z_expr: sp.Expr) -> bool:
     A, B, C = sp.sympify(A), sp.sympify(B), sp.sympify(C)
     D, E, F = sp.sympify(D), sp.sympify(E), sp.sympify(F)
 
-    sigma = B*E - (sp.sqrt(A*F) - sp.sqrt(C*D))**2
-    if sigma.is_negative:
+    sigma = sp.simplify(B*E - (sp.sqrt(A*F) - sp.sqrt(C*D))**2)
+    if sigma < 0:
         return False
 
     Delta = A*F - C*D
@@ -88,17 +108,17 @@ def is_necessarily_regular_by_definition_optimised(Z_expr: sp.Expr) -> bool:
     Returns:
         True if the function is necessarily regular, False otherwise.
     """
-    w = sp.Symbol("w", positive=True, real=True)
-    sqrtw = sp.sqrt(w)
-    j = sp.I
-
-    Z = Z_expr.subs(s, j * sqrtw)
-    Y = 1 / Z
-
-    Z_re = sp.re(sp.simplify(Z))
-    Y_re = sp.re(sp.simplify(Y))
-
     try:
+        w = sp.Symbol("w", positive=True, real=True)
+        sqrtw = sp.sqrt(w)
+        j = sp.I
+
+        Z = Z_expr.subs(s, j * sqrtw)
+        Y = 1 / Z
+
+        Z_re = sp.re(sp.simplify(Z))
+        Y_re = sp.re(sp.simplify(Y))
+
         Z_lim_0 = sp.limit(Z_re, w, 0)
         Z_lim_inf = sp.limit(Z_re, w, sp.oo)
         Y_lim_0 = sp.limit(Y_re, w, 0)
@@ -123,10 +143,8 @@ def is_necessarily_regular_by_definition_optimised(Z_expr: sp.Expr) -> bool:
     min_Z_re = finite_min(Z_re)
     min_Y_re = finite_min(Y_re)
 
-    # A function is regular if its real part (or its inverse's) has its minimum at 0 or infinity.
-    # If there are no finite minima, then the function is regular by this criterion.
-    z_reg = (min_Z_re is None) or (Z_lim_0 <= min_Z_re and Z_lim_inf <= min_Z_re)
-    y_reg = (min_Y_re is None) or (Y_lim_0 <= min_Y_re and Y_lim_inf <= min_Y_re)
+    z_reg = (min_Z_re is None) or (min_Z_re >= Z_lim_0 or min_Z_re >= Z_lim_inf)
+    y_reg = (min_Y_re is None) or (min_Y_re >= Y_lim_0 or min_Y_re >= Y_lim_inf)
 
     return z_reg or y_reg
 
@@ -142,16 +160,16 @@ def is_necessarily_regular_by_definition(Z_expr: sp.Expr) -> bool:
         True if the function is necessarily regular, False otherwise.
     """
     # Use a fresh symbol for omega to avoid conflicts with 'w' from other functions
-    omega = sp.Symbol("omega", positive=True, real=True)
-    j = sp.I
-
-    Z = Z_expr.subs(s, j * omega)
-    Y = 1 / Z
-
-    Z_re = sp.re(sp.simplify(Z))
-    Y_re = sp.re(sp.simplify(Y))
-
     try:
+        omega = sp.Symbol("omega", positive=True, real=True)
+        j = sp.I
+
+        Z = Z_expr.subs(s, j * omega)
+        Y = 1 / Z
+
+        Z_re = sp.re(sp.simplify(Z))
+        Y_re = sp.re(sp.simplify(Y))
+
         Z_lim_0 = sp.limit(Z_re, omega, 0)
         Z_lim_inf = sp.limit(Z_re, omega, sp.oo)
         Y_lim_0 = sp.limit(Y_re, omega, 0)
@@ -173,7 +191,7 @@ def is_necessarily_regular_by_definition(Z_expr: sp.Expr) -> bool:
     min_Z_re = finite_min(Z_re)
     min_Y_re = finite_min(Y_re)
 
-    z_reg = (min_Z_re is None) or (Z_lim_0 <= min_Z_re and Z_lim_inf <= min_Z_re)
-    y_reg = (min_Y_re is None) or (Y_lim_0 <= min_Y_re and Y_lim_inf <= min_Y_re)
+    z_reg = (min_Z_re is None) or (min_Z_re >= Z_lim_0 or min_Z_re >= Z_lim_inf)
+    y_reg = (min_Y_re is None) or (min_Y_re >= Y_lim_0 or min_Y_re >= Y_lim_inf)
 
     return z_reg or y_reg

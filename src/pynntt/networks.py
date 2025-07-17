@@ -112,32 +112,32 @@ def parse_descriptor(s: str) -> Any:
             tok = tokens.pop(0)
             if tok == '(': 
                 e = parse_expr(tokens)
-                if tokens.pop(0) != ')':
+                if not tokens or tokens.pop(0) != ')':
                     raise ValueError("Mismatched parentheses in descriptor")
                 return e
             elif tok == '<':
-                if tokens.pop(0) != '(':
+                if not tokens or tokens.pop(0) != '(':
                     raise ValueError("Expected '(' after '<'")
                 a = parse_expr(tokens)
-                if tokens.pop(0) != '&':
+                if not tokens or tokens.pop(0) != '&':
                     raise ValueError("Expected '&' after first element in bridge")
                 b = parse_expr(tokens)
-                if tokens.pop(0) != ')':
+                if not tokens or tokens.pop(0) != ')':
                     raise ValueError("Expected ')' after second element in bridge")
-                if tokens.pop(0) != '@':
+                if not tokens or tokens.pop(0) != '@':
                     raise ValueError("Expected '@' after bridge arm 1")
-                if tokens.pop(0) != '(':
+                if not tokens or tokens.pop(0) != '(':
                     raise ValueError("Expected '(' after '@'")
                 c = parse_expr(tokens)
-                if tokens.pop(0) != '&':
+                if not tokens or tokens.pop(0) != '&':
                     raise ValueError("Expected '&' after third element in bridge")
                 d = parse_expr(tokens)
-                if tokens.pop(0) != ')':
+                if not tokens or tokens.pop(0) != ')':
                     raise ValueError("Expected ')' after fourth element in bridge")
-                if tokens.pop(0) != '/':
+                if not tokens or tokens.pop(0) != '/':
                     raise ValueError("Expected '/' after bridge arm 2")
                 e = parse_expr(tokens)
-                if tokens.pop(0) != '>':
+                if not tokens or tokens.pop(0) != '>':
                     raise ValueError("Expected '>' after bridge expression")
                 return ('/', ('&', a, b), ('&', c, d), e)
             elif tok in ELEMENTS: return tok

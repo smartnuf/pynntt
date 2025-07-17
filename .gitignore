@@ -3,3 +3,5 @@
 /src/pynntt/__pycache__/*.pyc
 *.pyc
 /commit-log.txt
+/*.coverage
+/htmlcov
