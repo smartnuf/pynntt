@@ -1,12 +1,25 @@
-import sympy as sp
+import sympy as sp  # type: ignore
 from typing import Any
 
 s = sp.Symbol("s", positive=True, real=True)
+
+def is_positive_real_rational_function(Z_expr: sp.Expr) -> bool:
+    """
+    Determines if a given SymPy expression is a positive-real rational
+    function. For now, this is a placeholder that only checks if it's a
+    rational function.
+    """
+    return Z_expr.is_rational_function(s)
 
 def is_necessarily_regular(Z_expr: sp.Expr) -> bool:
     """
     Determines if a given impedance expression is necessarily regular.
     """
+    # Guard against non-SymPy expressions or non-rational functions
+    if not isinstance(Z_expr, sp.Expr) or \
+       not is_positive_real_rational_function(Z_expr):
+        return False
+
     # First, try the biquadratic test if applicable
     try:
         num, den = sp.fraction(Z_expr)
@@ -40,6 +53,10 @@ def is_necessarily_regular_biquadratic(Z_expr: sp.Expr) -> bool:
     Returns:
         True if the function is necessarily regular, False otherwise.
     """
+    if not isinstance(Z_expr, sp.Expr) or \
+       not is_positive_real_rational_function(Z_expr):
+        return False
+
     num, den = sp.fraction(Z_expr)
 
     num = sp.expand(num)
@@ -108,6 +125,10 @@ def is_necessarily_regular_by_definition_optimised(Z_expr: sp.Expr) -> bool:
     Returns:
         True if the function is necessarily regular, False otherwise.
     """
+    if not isinstance(Z_expr, sp.Expr) or \
+       not is_positive_real_rational_function(Z_expr):
+        return False
+
     try:
         w = sp.Symbol("w", positive=True, real=True)
         sqrtw = sp.sqrt(w)
@@ -135,7 +156,8 @@ def is_necessarily_regular_by_definition_optimised(Z_expr: sp.Expr) -> bool:
         # Solve for critical points where derivative is zero
         # Use sp.numer to get the numerator of the derivative if it's a fraction
         roots = sp.solve(sp.numer(deriv), w, domain=sp.S.Reals)
-        finite_roots = [r for r in roots if r.is_real and r.is_positive and r != sp.oo]
+        finite_roots = [r for r in roots if r.is_real and r.is_positive and
+                        r != sp.oo]
 
         values = [expr.subs(w, r) for r in finite_roots]
         return sp.Min(*values) if values else None
@@ -159,6 +181,10 @@ def is_necessarily_regular_by_definition(Z_expr: sp.Expr) -> bool:
     Returns:
         True if the function is necessarily regular, False otherwise.
     """
+    if not isinstance(Z_expr, sp.Expr) or \
+       not is_positive_real_rational_function(Z_expr):
+        return False
+
     # Use a fresh symbol for omega to avoid conflicts with 'w' from other functions
     try:
         omega = sp.Symbol("omega", positive=True, real=True)
@@ -183,7 +209,8 @@ def is_necessarily_regular_by_definition(Z_expr: sp.Expr) -> bool:
             return expr.subs(omega, 0)
 
         roots = sp.solve(sp.numer(deriv), omega, domain=sp.S.Reals)
-        finite_roots = [r for r in roots if r.is_real and r.is_positive and r != sp.oo]
+        finite_roots = [r for r in roots if r.is_real and r.is_positive and
+                        r != sp.oo]
 
         values = [expr.subs(omega, r) for r in finite_roots]
         return sp.Min(*values) if values else None
