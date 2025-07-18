@@ -9,7 +9,7 @@ regularity_test_cases = [
 
     # Biquadratic tests
     ((s**3 + 1) / (s**2 + 1),               False, True,  True,  "Not a biquadratic, (but regular by definition)"),
-    ((s**2 + s + 1) / (s**2 + s + 100),     False, True,  True,  "Biquadratic non-regular (sigma negative)"),
+    ((s**2 + s + 1) / (s**2 + s + 100),     False, True,  True,  "Biquadratic non-regular (sigma negative, not PR)"),
     ((s**2 + 2*s + 1) / (s**2 + 2*s + 1),   True,  True,  True,  "Biquadratic regular (K=0)"),
     ((s**2 + 2*s + 1) / (s**2 + s + 2),     True,  True,  True,  "Biquadratic regular (cond1 True)"),
     ((2*s**2 + s + 1) / (s**2 + 2*s + 1),   True,  True,  True,  "Biquadratic regular (cond2 True)"),
@@ -40,18 +40,18 @@ regularity_test_cases = [
 
 biquadratic_test_cases = [
     ((s**3 + 1) / (s**2 + 1),               False, "Not a biquadratic, (but regular by definition)"),
-    ((s**2 + s + 1) / (s**2 + s + 100),     False, "Biquadratic non-regular (sigma negative)"),
-    ((s**2 + 2*s + 1) / (s**2 + 2*s + 1),   True,  "Biquadratic regular (K=0)"),
-    ((s**2 + 2*s + 1) / (s**2 + s + 2),     True,  "Biquadratic regular (cond1 True)"),
-    ((2*s**2 + s + 1) / (s**2 + 2*s + 1),   True,  "Biquadratic regular (cond2 True)"),
-    ((s**2 + 3*s + 2) / (s**2 + s + 1),     True,  "Biquadratic regular (cond3 True)"),
-    ((s**2 + s + 2) / (s**2 + 2*s + 1),     True,  "Biquadratic regular (cond4 True)"),
-    ((s**2 + s + 2) / (s**2 + s + 1),       False, "Biquadratic non-regular (all condN False)"),
-    ((s**2 + 2*s + 1) / (s**2 + s + 1),     True,  "Biquadratic regular"),
-    ((s**2 + 0.5*s + 1) / (s**2 + 2*s + 1), True,  "Biquadratic regular (sigma positive)"),
-    (sp.sympify(5),                         True,  "Biquadratic constant"),
-    ((s + 1) / (s**2 + s + 1),              True,  "Biquadratic first degree num"),
-    ((s**2 + s + 1) / (s + 1),              True,  "Biquadratic first degree den"),
+    ((s**2 + s + 1) / (s**2 + s + 100),     False, "Not PR (sigma negative)"),
+    ((s**2 + 2*s + 1) / (s**2 + 2*s + 1),   True,  "Regular (K=0)"),
+    ((s**2 + 2*s + 1) / (s**2 + s + 2),     True,  "Regular (cond1 True)"),
+    ((2*s**2 + s + 1) / (s**2 + 2*s + 1),   True,  "Regular (cond2 True)"),
+    ((s**2 + 3*s + 2) / (s**2 + s + 1),     True,  "Regular (cond3 True)"),
+    ((s**2 + s + 2) / (s**2 + 2*s + 1),     True,  "Regular (cond4 True)"),
+    ((s**2 + s + 2) / (s**2 + s + 1),       False, "Non-regular (all condN False)"),
+    ((s**2 + 2*s + 1) / (s**2 + s + 1),     True,  "Regular"),
+    ((s**2 + 0.5*s + 1) / (s**2 + 2*s + 1), True,  "Regular (sigma positive)"),
+    (sp.sympify(5),                         True,  "Regualr (constant)"),
+    ((s + 1) / (s**2 + s + 1),              True,  "Regular (first degree num)"),
+    ((s**2 + s + 1) / (s + 1),              True,  "Regular (first degree den")
 ]
 
 @pytest.mark.parametrize("Z_expr, expected_result, comment", biquadratic_test_cases)
