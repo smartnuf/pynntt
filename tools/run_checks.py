@@ -37,6 +37,10 @@ def main():
     if not run_command(f"{venv_python} -m mypy src/", "Running Mypy (static type checker)"):
         all_passed = False
 
+    # Run pytest
+    if not run_command(f"{venv_python} -m pytest", "Running Pytest (unit tests)"):
+        all_passed = False
+
     if all_passed:
         print("\nAll code quality checks passed successfully!")
         sys.exit(0)
