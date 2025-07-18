@@ -2,7 +2,8 @@ import csv
 import sympy as sp
 from pathlib import Path
 import argparse
-from pynntt.networks import parse_descriptor, eval_impedance, canonical_form, is_necessarily_regular
+from pynntt.networks import parse_descriptor, eval_impedance, canonical_form
+from pynntt.regularity import is_necessarily_regular
 
 
 def load_catalogue(path):
