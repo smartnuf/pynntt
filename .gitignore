@@ -5,3 +5,4 @@
 /commit-log.txt
 /*.coverage
 /htmlcov
+/temp_commit_message.txt
