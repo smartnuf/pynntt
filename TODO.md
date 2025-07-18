@@ -4,8 +4,8 @@ This file contains a list of tasks and items to be addressed for the `pynntt` pr
 
 ## High Priority
 
-*   Implement `is_rational_function()` and `is_positive_real_function()`. These are needed in some `is_necessarily_regular_*()` predicates, as a function has no classification for regularity unless it is a positive real, rational, function.
-*   Add test cases for boundary values of the algebraic conditions for regularity of quadratic forms, and create conditions for each reachable set of values of sigma, delta, and lambdaN.
+*   Implement `is_sympy_expression()`, `is_rational_function()` and `is_positive_real_rational_function()`. These are needed in some `is_necessarily_regular_*()` predicates, as a function has no classification for regularity unless it is a positive real, rational, function.
+*   [DONE] Add test cases for boundary values of the algebraic conditions for regularity of quadratic forms, and create conditions for each reachable set of values of sigma, delta, and lambdaN.
 
 ## Medium Priority
 

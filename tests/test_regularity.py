@@ -8,31 +8,45 @@ regularity_test_cases = [
     # (Z_expr, expected_biquadratic_result, expected_optimised_result, expected_definition_result, comment)
 
     # Biquadratic tests
-    ((s**3 + 1) / (s**2 + 1),               None,  True,  True,  "Not a biquadratic (regular by definition)"),
-    ((s**2 + 2*s + 1) / (s**2 + s + 1),     True,  None,  None,  "Biquadratic regular"),
-    ((s**2 + 0.5*s + 1) / (s**2 + 2*s + 1), True,  None,  None,  "Biquadratic regular (sigma positive)"),
-    (sp.sympify(5),                         True,  None,  None,  "Biquadratic constant"),
-    ((s + 1) / (s**2 + s + 1),              True,  None,  None,  "Biquadratic first degree num"),
-    ((s**2 + s + 1) / (s + 1),              True,  None,  None,  "Biquadratic first degree den"),
+    ((s**3 + 1) / (s**2 + 1),               False, True,  True,  "Not a biquadratic, (but regular by definition)"),
+    ((s**2 + s + 1) / (s**2 + s + 100),     False, True,  True,  "Biquadratic non-regular (sigma negative)"),
+    ((s**2 + 2*s + 1) / (s**2 + 2*s + 1),   True,  True,  True,  "Biquadratic regular (K=0)"),
+    ((s**2 + 2*s + 1) / (s**2 + s + 2),     True,  True,  True,  "Biquadratic regular (cond1 True)"),
+    ((2*s**2 + s + 1) / (s**2 + 2*s + 1),   True,  True,  True,  "Biquadratic regular (cond2 True)"),
+    ((s**2 + 3*s + 2) / (s**2 + s + 1),     True,  True,  True,  "Biquadratic regular (cond3 True)"),
+    ((s**2 + s + 2) / (s**2 + 2*s + 1),     True,  True,  True,  "Biquadratic regular (cond4 True)"),
+    ((s**2 + s + 2) / (s**2 + s + 1),       False, False, False, "Biquadratic non-regular (all condN False)"),
+    ((s**2 + 2*s + 1) / (s**2 + s + 1),     True,  True,  True,  "Biquadratic regular"),
+    ((s**2 + 0.5*s + 1) / (s**2 + 2*s + 1), True,  True,  True,  "Biquadratic regular (sigma positive)"),
+    (sp.sympify(5),                         True,  True,  True,  "Biquadratic constant"),
+    ((s + 1) / (s**2 + s + 1),              True,  True,  True,  "Biquadratic first degree num"),
+    ((s**2 + s + 1) / (s + 1),              True,  True,  True,  "Biquadratic first degree den"),
 
-    # Definition-based tests
-    (R1 + 1/(s*C1),                         None,  True,  True,  "RC network (regular)"),
-    (R1 + s*L1,                             None,  True,  True,  "RL network (regular)"),
-    (s*L1 + 1/(s*C1),                       None,  True,  True,  "LC network (regular)"),
-    (sp.sympify(10),                        None,  True,  True,  "Constant (regular)"),
+    # Defined necessarily regular by construction tests
+    (R1 + 1/(s*C1),                         True,  True,  True,  "RC network (regular)"),
+    (R1 + s*L1,                             True,  True,  True,  "RL network (regular)"),
+    (s*L1 + 1/(s*C1),                       True,  True,  True,  "LC network (regular)"),
+    (sp.sympify(10),                        True,  True,  True,  "Constant (regular)"),
 
     # Non-regular cases (where min_Z_re is not at boundaries, based on current implementation's behavior)
-    (-s**2 + 4*s,                           None,  True,  True,  "Non-regular (current impl returns True)"),
-    (1/(-s**2 + 4*s),                       None,  True,  True,  "Non-regular (current impl returns True)"),
+    (-s**2 + 4*s,                           False, False, False, "Not PR non-regular (some current impls return True)"),
+    (1/(-s**2 + 4*s),                       False, False, False, "Not PR Non-regular (some current impls return True)"),
 
     # Exception handling test
-    ("not a sympy expression",              None,  False, False, "Non-sympy expression (should raise exception and return False)"),
-    (sp.sin(s),                             None,  True,  True,  "Non-polynomial expression (regular by definition)"),
-    (sp.sqrt(s),                            None,  True,  True,  "Non-polynomial expression (sqrt(s) regular by definition)"),
+    ("not a sympy expression",              False, False, False, "Non-sympy expression (should raise exception and return False)"),
+    (sp.sin(s),                             False, False, False, "Not a rational expression, (sin(s)), (some current impls return True)"),
+    (sp.sqrt(s),                            False, False, False, "Not a rational expression, (sqrt(s)) (some current impls return True)"),
 ]
 
 biquadratic_test_cases = [
-    ((s**3 + 1) / (s**2 + 1),               False, "Not a biquadratic"),
+    ((s**3 + 1) / (s**2 + 1),               False, "Not a biquadratic, (but regular by definition)"),
+    ((s**2 + s + 1) / (s**2 + s + 100),     False, "Biquadratic non-regular (sigma negative)"),
+    ((s**2 + 2*s + 1) / (s**2 + 2*s + 1),   True,  "Biquadratic regular (K=0)"),
+    ((s**2 + 2*s + 1) / (s**2 + s + 2),     True,  "Biquadratic regular (cond1 True)"),
+    ((2*s**2 + s + 1) / (s**2 + 2*s + 1),   True,  "Biquadratic regular (cond2 True)"),
+    ((s**2 + 3*s + 2) / (s**2 + s + 1),     True,  "Biquadratic regular (cond3 True)"),
+    ((s**2 + s + 2) / (s**2 + 2*s + 1),     True,  "Biquadratic regular (cond4 True)"),
+    ((s**2 + s + 2) / (s**2 + s + 1),       False, "Biquadratic non-regular (all condN False)"),
     ((s**2 + 2*s + 1) / (s**2 + s + 1),     True,  "Biquadratic regular"),
     ((s**2 + 0.5*s + 1) / (s**2 + 2*s + 1), True,  "Biquadratic regular (sigma positive)"),
     (sp.sympify(5),                         True,  "Biquadratic constant"),
